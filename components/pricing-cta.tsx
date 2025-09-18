@@ -1,56 +1,97 @@
-import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { MouseHighlightText } from "./mouse-highlight-text"
+import { Container, Section, Stack, Grid, Inline } from "@/components/ui/layout"
+import { Heading, Text, Card, GradientBackground } from "@/components/ui/primitives"
+import { CTAButton } from "@/components/ui/enhanced-button"
 
 export function PricingCTA() {
+  const benefits = [
+    "Free consultation & business assessment",
+    "Custom solution proposal within 48 hours",
+    "Dedicated success manager & team",
+    "Guaranteed ROI or money-back promise",
+  ]
+
   return (
-    <section className="py-40 px-6 bg-gradient-to-br from-blue-950 via-slate-950 to-emerald-950">
-      <div className="max-w-5xl mx-auto text-center">
-        <div className="mb-20">
-          <h2 className="text-5xl md:text-7xl font-bold mb-12">
-            <span className="text-white">Ready to Transform</span>
-            <br />
-            <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-              Your Business?
-            </span>
-          </h2>
-          <MouseHighlightText className="text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            Join 50+ companies that have achieved 200-400% revenue growth.
-          </MouseHighlightText>
-        </div>
+    <Section
+      spacing="3xl"
+      background="primary"
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20"
+    >
+      {/* Background */}
+      <GradientBackground
+        variant="linear"
+        animate="slow"
+        className="absolute inset-0 opacity-20"
+      />
 
-        <div className="bg-slate-900/50 rounded-3xl p-16 border border-slate-800 mb-16">
-          <h3 className="text-4xl font-bold text-white mb-12">Start Your AI Journey Today</h3>
+      <Container className="relative z-10 px-4 sm:px-6">
+        <Stack spacing="6xl" align="center" className="text-center">
+          {/* Header */}
+          <Stack spacing="3xl" align="center">
+            <Heading level={2}>
+              <span className="text-text-primary">Ready to Transform</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+                Your Business?
+              </span>
+            </Heading>
+            <MouseHighlightText className="text-lg sm:text-xl md:text-2xl text-text-secondary max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+              Join 50+ companies that have achieved 200-400% revenue growth.
+            </MouseHighlightText>
+          </Stack>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            {[
-              "Free consultation & business assessment",
-              "Custom solution proposal within 48 hours",
-              "Dedicated success manager & team",
-              "Guaranteed ROI or money-back promise",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-center gap-4 text-left">
-                <CheckCircle className="w-8 h-8 text-emerald-400 flex-shrink-0" />
-                <span className="text-xl text-slate-300">{benefit}</span>
-              </div>
-            ))}
-          </div>
-
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-16 py-8 text-2xl font-semibold rounded-2xl transition-all duration-300 hover:scale-105"
+          {/* CTA Card */}
+          <Card
+            variant="glass"
+            padding="xl"
+            className="w-full max-w-4xl border-surface-secondary mx-4 sm:mx-0"
           >
-            Get Free Consultation
-            <ArrowRight className="ml-4 h-8 w-8" />
-          </Button>
-        </div>
+            <Stack spacing="3xl" align="center">
+              <Heading level={3} className="text-text-primary">
+                Start Your AI Journey Today
+              </Heading>
 
-        {/* Contact info */}
-        <div className="text-slate-400 text-xl space-y-4">
-          <div>📧 hello@simplx.tech</div>
-          <div>📱 +971 50 123 4567 (Gulf) • +49 30 1234 5678 (Europe) • +1 555 123 4567 (USA)</div>
-        </div>
-      </div>
-    </section>
+              <Grid cols={1} colsMd={2} gap="lg" className="w-full">
+                {benefits.map((benefit, index) => (
+                  <Inline
+                    key={index}
+                    spacing="md"
+                    align="center"
+                    className="text-left group cursor-default"
+                  >
+                    <CheckCircle className="w-8 h-8 text-emerald-400 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+                    <Text size="xl" variant="secondary" className="group-hover:text-text-primary transition-colors duration-300">
+                      {benefit}
+                    </Text>
+                  </Inline>
+                ))}
+              </Grid>
+
+              <CTAButton
+                size="xl"
+                glow
+                className="px-4 sm:px-8 md:px-16 py-6 sm:py-8 text-lg sm:text-xl md:text-2xl font-semibold w-full max-w-sm sm:max-w-none sm:w-auto"
+              >
+                Get Free Consultation
+                <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8" />
+              </CTAButton>
+            </Stack>
+          </Card>
+
+          {/* Contact Info */}
+          <Stack spacing="md" align="center" className="text-text-tertiary text-xl">
+            <Text className="flex items-center justify-center gap-2">
+              <span>📧</span>
+              <span>hello@simplx.tech</span>
+            </Text>
+            <Text className="flex items-center justify-center gap-2 max-w-4xl text-center">
+              <span>📱</span>
+              <span>+971 50 123 4567 (Gulf) • +49 30 1234 5678 (Europe) • +1 555 123 4567 (USA)</span>
+            </Text>
+          </Stack>
+        </Stack>
+      </Container>
+    </Section>
   )
 }

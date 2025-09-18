@@ -1,50 +1,67 @@
+import { Container, Section, Grid, Stack } from "@/components/ui/layout"
+import { BrandLogo, Heading, Text } from "@/components/ui/primitives"
+
 export function Footer() {
   return (
-    <footer className="bg-slate-950 border-t border-slate-800 py-20">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h3 className="text-6xl font-bold mb-4">
-            <span className="text-white">Simplx</span>
-            <span className="text-blue-500">.tech</span>
-          </h3>
-          <p className="text-slate-400 text-xl">Next-Gen AI & Software Agency</p>
-        </div>
+    <Section
+      as="footer"
+      background="primary"
+      spacing="xl"
+      className="border-t border-border-primary py-12 sm:py-16 md:py-20"
+    >
+      <Container className="px-4 sm:px-6">
+        <Stack spacing="6xl" align="center">
+          <Stack spacing="lg" align="center" className="text-center">
+            <BrandLogo size="xl" className="text-2xl sm:text-3xl" />
+            <Text size="xl" variant="secondary" align="center" className="text-base sm:text-lg md:text-xl">
+              Next-Gen AI & Software Agency
+            </Text>
+          </Stack>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
-          <div className="text-center">
-            <h4 className="text-xl font-bold text-white mb-6">Services</h4>
-            <ul className="space-y-4 text-slate-300">
-              <li>Revenue Growth Solutions</li>
-              <li>Business Automation</li>
-              <li>Process Optimization</li>
-              <li>Strategic Consulting</li>
-            </ul>
+          <Grid cols={1} colsMd={3} gap="3xl" className="w-full space-y-8 md:space-y-0">
+            <Stack spacing="lg" align="center">
+              <Heading level={4} className="text-text-primary">
+                Services
+              </Heading>
+              <Stack spacing="md" align="center">
+                <Text variant="tertiary">Revenue Growth Solutions</Text>
+                <Text variant="tertiary">Business Automation</Text>
+                <Text variant="tertiary">Process Optimization</Text>
+                <Text variant="tertiary">Strategic Consulting</Text>
+              </Stack>
+            </Stack>
+
+            <Stack spacing="lg" align="center">
+              <Heading level={4} className="text-text-primary">
+                Company
+              </Heading>
+              <Stack spacing="md" align="center">
+                <Text variant="tertiary">About Us</Text>
+                <Text variant="tertiary">Success Stories</Text>
+                <Text variant="tertiary">Contact</Text>
+                <Text variant="tertiary">Careers</Text>
+              </Stack>
+            </Stack>
+
+            <Stack spacing="lg" align="center">
+              <Heading level={4} className="text-text-primary">
+                Global Presence
+              </Heading>
+              <Stack spacing="md" align="center">
+                <Text variant="tertiary">🇦🇪 Dubai, UAE</Text>
+                <Text variant="tertiary">🇩🇪 Berlin, Germany</Text>
+                <Text variant="tertiary">🇺🇸 Boston, USA</Text>
+              </Stack>
+            </Stack>
+          </Grid>
+
+          <div className="w-full text-center border-t border-border-primary pt-8 sm:pt-12 md:pt-16">
+            <Text size="lg" variant="secondary" className="text-sm sm:text-base md:text-lg">
+              © 2025 Simplx.tech. All rights reserved.
+            </Text>
           </div>
-
-          <div className="text-center">
-            <h4 className="text-xl font-bold text-white mb-6">Company</h4>
-            <ul className="space-y-4 text-slate-300">
-              <li>About Us</li>
-              <li>Success Stories</li>
-              <li>Contact</li>
-              <li>Careers</li>
-            </ul>
-          </div>
-
-          <div className="text-center">
-            <h4 className="text-xl font-bold text-white mb-6">Global Presence</h4>
-            <ul className="space-y-4 text-slate-300">
-              <li>🇦🇪 Dubai, UAE</li>
-              <li>🇩🇪 Berlin, Germany</li>
-              <li>🇺🇸 Boston, USA</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="text-center text-slate-400 text-lg border-t border-slate-800 pt-12">
-          © 2025 Simplx.tech. All rights reserved.
-        </div>
-      </div>
-    </footer>
+        </Stack>
+      </Container>
+    </Section>
   )
 }

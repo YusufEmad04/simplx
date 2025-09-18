@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react"
 import { TrendingDown, DollarSign, Clock, Users, Target, AlertTriangle } from "lucide-react"
 import { MouseHighlightText } from "./mouse-highlight-text"
+import { Container, Section, Grid, Stack } from "@/components/ui/layout"
+import { Heading, Text } from "@/components/ui/primitives"
+import { Card, IconWrapper } from "@/components/ui/primitives"
 
 const challenges = [
   {
@@ -44,9 +47,16 @@ const challenges = [
 
 export function BusinessChallenges() {
   const [visibleCards, setVisibleCards] = useState<number[]>([])
+  const [isMounted, setIsMounted] = useState(false)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -64,67 +74,84 @@ export function BusinessChallenges() {
     })
 
     return () => observer.disconnect()
-  }, [])
+  }, [isMounted])
 
   return (
-    <section id="business-challenges" className="py-40 px-6 bg-slate-950 relative overflow-hidden">
+    <Section
+      id="business-challenges"
+      spacing="3xl"
+      background="primary"
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20"
+    >
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-primary rounded-full blur-3xl animate-pulse" />
         <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-accent rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "2s" }}
-        ></div>
+        />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-32">
-          <div className="animate-fade-in">
-            <h2 className="text-5xl md:text-7xl font-bold mb-12 leading-tight">
-              <span className="text-white">Business Challenges</span>
-              <br />
-              <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
-                We Transform
-              </span>
-            </h2>
-          </div>
-          <div className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            <MouseHighlightText className="text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
-              Every business faces obstacles. We turn your biggest challenges into competitive advantages.
-            </MouseHighlightText>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {challenges.map((challenge, index) => (
-            <div
-              key={index}
-              ref={(el) => (cardRefs.current[index] = el)}
-              data-index={index}
-              className={`group p-8 bg-slate-900/50 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-all duration-700 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/10 backdrop-blur-sm ${
-                visibleCards.includes(index) ? "animate-slide-up opacity-100" : "opacity-0"
-              }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-emerald-400 to-purple-500 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                  <challenge.icon className="h-8 w-8 text-white" />
-                </div>
-              </div>
-
-              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
-                {challenge.title}
-              </h3>
-
-              <MouseHighlightText className="text-slate-300 leading-relaxed">
-                {challenge.description}
-              </MouseHighlightText>
-
-              <div className="mt-6 h-1 bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+      <Container className="relative z-10 px-4 sm:px-6">
+        <Stack spacing="6xl">
+          <Stack spacing="3xl" align="center" className="text-center">
+            <div className="animate-fade-in">
+              <Heading level={2}>
+                <span className="text-text-primary">Business Challenges</span>
+                <br />
+                <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
+                  We Transform
+                </span>
+              </Heading>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+            <div className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
+              <MouseHighlightText className="text-lg sm:text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
+                Every business faces obstacles. We turn your biggest challenges into competitive advantages.
+              </MouseHighlightText>
+            </div>
+          </Stack>
+
+          <Grid cols={1} colsMd={3} gap="xl" className="max-w-6xl mx-auto gap-y-8 md:gap-y-12">
+            {challenges.map((challenge, index) => (
+              <Card
+                key={index}
+                ref={(el) => {
+                  cardRefs.current[index] = el
+                }}
+                data-index={index}
+                variant="glass"
+                padding="lg"
+                hover="lift"
+                className={`group border-border-primary hover:border-brand-primary/50 transition-all duration-700 backdrop-blur-sm ${visibleCards.includes(index) ? "animate-slide-up opacity-100" : "opacity-0"
+                  }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <Stack spacing="lg">
+                  <IconWrapper
+                    size="lg"
+                    className="bg-gradient-to-br from-brand-primary via-brand-accent to-purple-500 text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                  >
+                    <challenge.icon className="h-8 w-8" />
+                  </IconWrapper>
+
+                  <Heading
+                    level={5}
+                    className="text-text-primary group-hover:text-brand-primary transition-colors"
+                  >
+                    {challenge.title}
+                  </Heading>
+
+                  <MouseHighlightText className="text-text-secondary leading-relaxed">
+                    {challenge.description}
+                  </MouseHighlightText>
+
+                  <div className="h-1 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                </Stack>
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </Container>
+    </Section>
   )
 }

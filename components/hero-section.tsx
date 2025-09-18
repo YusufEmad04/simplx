@@ -2,11 +2,14 @@
 
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Float, Environment, Sphere, MeshDistortMaterial } from "@react-three/drei"
-import { Button } from "@/components/ui/button"
+import { CTAButton, IconButton, ButtonGroup } from "@/components/ui/enhanced-button"
 import { ArrowRight, Play, Sparkles, ChevronDown } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
 import type * as THREE from "three"
 import { MouseHighlightText } from "./mouse-highlight-text"
+import { ModernLogo } from "./modern-logo"
+import { Container, Section, Stack, Inline, Grid } from "@/components/ui/layout"
+import { Heading, Text, BrandLogo, Card, GradientBackground } from "@/components/ui/primitives"
 
 function FloatingElements() {
   const group = useRef<THREE.Group>(null)
@@ -79,82 +82,11 @@ function FloatingElements() {
             speed={3}
             roughness={0.1}
             transparent
-            opacity={0.5}
+            opacity={0.8}
           />
         </Sphere>
       </Float>
-
-      {/* Floating rings */}
-      <Float speed={1} rotationIntensity={1} floatIntensity={1}>
-        <mesh position={[-2, 3, 0]} rotation={[0, 0, Math.PI / 4]}>
-          <torusGeometry args={[1, 0.1, 16, 100]} />
-          <meshStandardMaterial color="#3B82F6" transparent opacity={0.3} />
-        </mesh>
-      </Float>
-
-      <Float speed={1.8} rotationIntensity={1.5} floatIntensity={2}>
-        <mesh position={[3, -2, 2]} rotation={[Math.PI / 3, 0, 0]}>
-          <torusGeometry args={[0.8, 0.08, 16, 100]} />
-          <meshStandardMaterial color="#2AF598" transparent opacity={0.4} />
-        </mesh>
-      </Float>
     </group>
-  )
-}
-
-function ModernLogo() {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <div
-      className="cursor-pointer mb-16 relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <h1
-        className={`text-7xl md:text-8xl lg:text-9xl font-black tracking-tight transition-all duration-500 ${
-          isHovered ? "scale-105" : "scale-100"
-        }`}
-        style={{ fontFamily: "'Space Grotesk', 'Inter', monospace" }}
-      >
-        <span className={`text-white transition-all duration-300 ${isHovered ? "text-blue-100" : ""}`}>Simplx</span>
-        <span className={`text-blue-500 transition-all duration-300 ${isHovered ? "text-emerald-400" : ""}`}>
-          .tech
-        </span>
-      </h1>
-
-      {/* Animated underline */}
-      <div
-        className={`h-1 bg-gradient-to-r from-blue-500 via-emerald-400 to-purple-500 transition-all duration-700 mx-auto rounded-full ${
-          isHovered ? "w-full opacity-100" : "w-0 opacity-0"
-        }`}
-      />
-
-      {/* Floating particles around logo */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-2 h-2 bg-blue-400 rounded-full transition-all duration-500 ${
-              isHovered ? "opacity-100 animate-float" : "opacity-0"
-            }`}
-            style={{
-              left: `${20 + Math.random() * 60}%`,
-              top: `${20 + Math.random() * 60}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      <MouseHighlightText
-        className="text-slate-400 text-xl mt-6 font-medium animate-fade-in"
-        style={{ animationDelay: "0.5s" }}
-      >
-        Next-Generation AI Solutions
-      </MouseHighlightText>
-    </div>
   )
 }
 
@@ -168,10 +100,12 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-32 overflow-hidden">
+    <Section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Dynamic background gradient */}
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950/20 transition-all duration-1000"
+      <GradientBackground
+        variant="mesh"
+        animate="slow"
+        className="absolute inset-0 transition-all duration-1000"
         style={{ transform: `translateY(${scrollY * 0.5}px)` }}
       />
 
@@ -188,142 +122,165 @@ export function HeroSection() {
         </Canvas>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto text-center">
-        {/* Modern Logo with 3D surroundings */}
-        <ModernLogo />
+      <Container className="relative z-10 text-center px-4 sm:px-6">
+        <Stack spacing="6xl" align="center">
+          {/* Modern Logo with 3D surroundings */}
+          <ModernLogo />
 
-        {/* Clear messaging */}
-        <div className="mb-16 animate-fade-in" style={{ animationDelay: "0.7s" }}>
-          <MouseHighlightText className="text-3xl md:text-5xl font-bold mb-8 leading-relaxed text-slate-300 max-w-5xl mx-auto">
-            We transform businesses with intelligent AI solutions that drive real growth and efficiency
-          </MouseHighlightText>
-        </div>
+          {/* Clear messaging */}
+          <div className="animate-fade-in" style={{ animationDelay: "0.7s" }}>
+            <MouseHighlightText className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-relaxed text-text-tertiary max-w-5xl mx-auto px-4 sm:px-0">
+              We transform businesses with intelligent AI solutions that drive real growth and efficiency
+            </MouseHighlightText>
+          </div>
 
-        {/* Enhanced CTA Buttons */}
-        <div
-          className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-24 animate-fade-in"
-          style={{ animationDelay: "0.9s" }}
-        >
-          <Button
-            size="lg"
-            className="group bg-gradient-to-r from-blue-600 via-emerald-600 to-purple-600 hover:from-blue-700 hover:via-emerald-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-semibold rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 relative overflow-hidden"
+          {/* Enhanced CTA buttons */}
+          <div className="animate-fade-in" style={{ animationDelay: "0.9s" }}>
+            <ButtonGroup orientation="horizontal" className="flex-col sm:flex-row gap-4">
+              <CTAButton
+                size="xl"
+                glow={true}
+                className="group w-full sm:w-auto"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </CTAButton>
+
+              <CTAButton
+                variant="outline"
+                size="xl"
+                className="group w-full sm:w-auto"
+              >
+                <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span>Watch Demo</span>
+              </CTAButton>
+            </ButtonGroup>
+          </div>
+
+          {/* Quick navigation cards */}
+          <div className="animate-fade-in w-full relative z-10" style={{ animationDelay: "1.1s" }}>
+            <Grid cols={2} colsMd={4} gap="sm" className="max-w-4xl mx-auto md:gap-md">
+              {[
+                {
+                  label: "Business Challenges",
+                  icon: "💼",
+                  section: "business-challenges",
+                  description: "Problems we solve",
+                },
+                {
+                  label: "Our Results",
+                  icon: "📈",
+                  section: "results",
+                  description: "Proven success metrics",
+                },
+                {
+                  label: "Client Success",
+                  icon: "⭐",
+                  section: "testimonials",
+                  description: "What clients say",
+                },
+                {
+                  label: "Sub-Brands",
+                  icon: "🚀",
+                  section: "sub-brands",
+                  description: "Discover our ecosystem",
+                },
+              ].map((stat, index) => (
+                <Card
+                  key={index}
+                  variant="glass"
+                  padding="sm"
+                  hover="lift"
+                  className="group cursor-pointer transition-all duration-300 md:p-6"
+                  onClick={() => {
+                    const section = document.getElementById(stat.section)
+                    section?.scrollIntoView({ behavior: "smooth" })
+                  }}
+                >
+                  <div className="flex flex-col items-center space-y-1 md:space-y-3">
+                    <div className="text-2xl md:text-4xl group-hover:scale-125 transition-transform duration-300 group-hover:animate-bounce">
+                      {stat.icon}
+                    </div>
+                    <Text
+                      size="sm"
+                      variant="secondary"
+                      weight="semibold"
+                      className="group-hover:text-text-primary transition-colors text-center leading-tight md:text-lg"
+                    >
+                      {stat.label}
+                    </Text>
+                    <Text
+                      size="xs"
+                      variant="tertiary"
+                      className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300 group-hover:text-brand-primary text-center leading-tight hidden md:block md:text-sm"
+                    >
+                      {stat.description}
+                    </Text>
+
+                    {/* Animated underline */}
+                    <div className="h-0.5 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center w-full" />
+                  </div>
+                </Card>
+              ))}
+            </Grid>
+          </div>
+
+          {/* Enhanced scroll indicator - moved below navigation cards */}
+          <div
+            className="animate-fade-in mt-xl sm:mt-2xl flex justify-center"
+            style={{ animationDelay: "1.3s" }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <Sparkles className="mr-3 h-6 w-6 group-hover:animate-spin" />
-            Start Your Transformation
-            <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="lg"
-            className="group border-2 border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white px-12 py-6 text-xl font-semibold rounded-2xl transition-all duration-500 hover:scale-105 bg-transparent backdrop-blur-sm"
-          >
-            <Play className="mr-3 h-6 w-6 group-hover:scale-125 transition-transform" />
-            Explore Solutions
-          </Button>
-        </div>
-
-        {/* Interactive stats that link to actual sections */}
-        <div
-          className="grid grid-cols-2 md:grid-cols-4 gap-16 max-w-6xl mx-auto animate-fade-in mb-32"
-          style={{ animationDelay: "1.1s" }}
-        >
-          {[
-            {
-              label: "Trusted Partners",
-              icon: "🌍",
-              section: "trusted-by-section",
-              description: "See our partners",
-            },
-            {
-              label: "Business Solutions",
-              icon: "🏢",
-              section: "business-challenges",
-              description: "Explore challenges we solve",
-            },
-            {
-              label: "Success Stories",
-              icon: "⭐",
-              section: "testimonials",
-              description: "Read client testimonials",
-            },
-            {
-              label: "Sub-Brands",
-              icon: "🚀",
-              section: "sub-brands",
-              description: "Discover our ecosystem",
-            },
-          ].map((stat, index) => (
             <div
-              key={index}
-              className="text-center group cursor-pointer py-8 px-4 rounded-2xl hover:bg-slate-800/30 transition-all duration-300 hover:scale-105"
+              className="cursor-pointer group flex flex-col items-center relative z-10"
               onClick={() => {
-                const section = document.getElementById(stat.section)
-                section?.scrollIntoView({ behavior: "smooth" })
+                const nextSection = document.querySelector("#trusted-by-section")
+                nextSection?.scrollIntoView({ behavior: "smooth" })
               }}
             >
-              <div className="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300 group-hover:animate-bounce">
-                {stat.icon}
+              {/* Modern circular design with gradient border */}
+              <div className="relative mb-md">
+                {/* Outer glow ring */}
+                <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-brand-primary via-brand-accent to-purple-500 opacity-20 group-hover:opacity-40 transition-opacity duration-300 blur-sm" />
+
+                {/* Main button */}
+                <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-surface-secondary/80 backdrop-blur-md border border-border-primary group-hover:border-brand-primary/50 transition-all duration-300 group-hover:scale-110 flex items-center justify-center">
+                  {/* Inner gradient background */}
+                  <div className="absolute inset-1 rounded-full bg-gradient-to-br from-surface-tertiary to-surface-secondary opacity-80" />
+
+                  {/* Icon */}
+                  <ChevronDown className="relative z-10 w-4 h-4 sm:w-6 sm:h-6 text-text-secondary group-hover:text-brand-primary transition-colors duration-300 group-hover:animate-pulse" />
+
+                  {/* Animated dots around the circle */}
+                  <div className="absolute inset-0">
+                    {[...Array(8)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="absolute w-1 h-1 bg-brand-primary rounded-full opacity-0 group-hover:opacity-60 transition-all duration-500"
+                        style={{
+                          top: `${50 + 35 * Math.cos((i * Math.PI * 2) / 8 - Math.PI / 2)}%`,
+                          left: `${50 + 35 * Math.sin((i * Math.PI * 2) / 8 - Math.PI / 2)}%`,
+                          transform: "translate(-50%, -50%)",
+                          transitionDelay: `${i * 100}ms`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="text-slate-400 text-lg group-hover:text-slate-300 transition-colors font-semibold mb-2">
-                {stat.label}
-              </div>
-              <div className="text-slate-500 text-sm group-hover:text-blue-400 transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
-                {stat.description}
-              </div>
 
-              {/* Animated underline */}
-              <div className="h-0.5 bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center mt-3" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Enhanced scroll indicator with modern design and proper centering */}
-      <div
-        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer group flex flex-col items-center"
-        onClick={() => {
-          const nextSection = document.querySelector("#trusted-by-section")
-          nextSection?.scrollIntoView({ behavior: "smooth" })
-        }}
-      >
-        {/* Modern circular design with gradient border */}
-        <div className="relative mb-3">
-          {/* Outer glow ring */}
-          <div className="absolute inset-0 w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 via-emerald-400 to-purple-500 opacity-20 group-hover:opacity-40 transition-opacity duration-300 blur-sm"></div>
-
-          {/* Main button */}
-          <div className="relative w-16 h-16 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700 group-hover:border-blue-400/50 transition-all duration-300 group-hover:scale-110 flex items-center justify-center">
-            {/* Inner gradient background */}
-            <div className="absolute inset-1 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 opacity-80"></div>
-
-            {/* Icon */}
-            <ChevronDown className="relative z-10 w-6 h-6 text-slate-400 group-hover:text-blue-400 transition-colors duration-300 group-hover:animate-pulse" />
-
-            {/* Animated dots around the circle */}
-            <div className="absolute inset-0">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-60 transition-all duration-500"
-                  style={{
-                    top: `${50 + 35 * Math.cos((i * Math.PI * 2) / 8 - Math.PI / 2)}%`,
-                    left: `${50 + 35 * Math.sin((i * Math.PI * 2) / 8 - Math.PI / 2)}%`,
-                    transform: "translate(-50%, -50%)",
-                    transitionDelay: `${i * 100}ms`,
-                  }}
-                />
-              ))}
+              {/* Text label */}
+              <Text
+                size="sm"
+                variant="secondary"
+                weight="medium"
+                className="group-hover:text-brand-primary transition-colors duration-300"
+              >
+                Discover More
+              </Text>
             </div>
           </div>
-        </div>
-
-        {/* Text label - properly centered */}
-        <p className="text-slate-400 text-sm group-hover:text-blue-400 transition-colors duration-300 font-medium text-center">
-          Discover More
-        </p>
-      </div>
-    </section>
+        </Stack>
+      </Container>
+    </Section>
   )
 }

@@ -11,9 +11,14 @@ interface MouseHighlightTextProps {
 }
 
 export function MouseHighlightText({ children, className = "", style }: MouseHighlightTextProps) {
-  const textRef = useRef<HTMLParagraphElement>(null)
+  const textRef = useRef<HTMLSpanElement>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (textRef.current) {
@@ -34,6 +39,8 @@ export function MouseHighlightText({ children, className = "", style }: MouseHig
   }, [])
 
   useEffect(() => {
+    if (!isMounted) return
+
     const element = textRef.current
     if (element) {
       element.addEventListener("mousemove", handleMouseMove, { passive: true })
@@ -46,13 +53,14 @@ export function MouseHighlightText({ children, className = "", style }: MouseHig
         element.removeEventListener("mouseleave", handleMouseLeave)
       }
     }
-  }, [handleMouseMove, handleMouseEnter, handleMouseLeave])
+  }, [handleMouseMove, handleMouseEnter, handleMouseLeave, isMounted])
 
   return (
-    <p ref={textRef} className={`relative cursor-default ${className}`} style={style}>
+    <span ref={textRef} className={`relative cursor-default ${className}`} style={style}>
       {children}
-      
-        <div
+
+      {isMounted && (
+        <span
           className="absolute pointer-events-none rounded-full transition-opacity duration-950"
           style={{
             left: mousePosition.x,
@@ -67,6 +75,7 @@ export function MouseHighlightText({ children, className = "", style }: MouseHig
             opacity: isHovering ? 1 : 0,
           }}
         />
-    </p>
+      )}
+    </span>
   )
 }
