@@ -76,9 +76,9 @@
     --font-weight-extrabold: 800;
 
     /* Font Families */
-    --font-primary: "Space Grotesk", "Inter", system-ui, sans-serif;
-    --font-secondary: "Inter", system-ui, sans-serif;
-    --font-mono: "JetBrains Mono", "Fira Code", monospace;
+    --font-primary: var(--font-space-grotesk), "Space Grotesk", "Inter", system-ui, sans-serif;
+    --font-secondary: var(--font-inter), "Inter", system-ui, sans-serif;
+    --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", "Fira Code", monospace;
 
     /* Border Radius */
     --radius-none: 0;
