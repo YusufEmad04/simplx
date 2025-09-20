@@ -19,7 +19,16 @@ export {
     Card,
     GradientBackground,
     IconWrapper,
+    StatusBadge,
+    FeatureDot,
+    Breadcrumb,
+    BreadcrumbItem,
+    NumberedItem,
 } from './primitives'
+
+// Page Components
+export { PageHero } from './page-hero'
+export { CTASection } from './cta-section'
 
 // Enhanced Button Components
 export {
@@ -29,6 +38,17 @@ export {
     FAB,
     ButtonGroup,
 } from './enhanced-button'
+
+// CTA Buttons
+export {
+    GetStartedButton,
+    GetStartedTodayButton,
+    ScheduleConsultationButton,
+    ExploreProductsButton,
+    ExploreProductButton,
+    LearnMoreButton,
+    CTAButton as GenericCTAButton,
+} from './cta-buttons'
 
 // Re-export existing shadcn/ui components for compatibility
 export { Button as ShadcnButton } from './button'

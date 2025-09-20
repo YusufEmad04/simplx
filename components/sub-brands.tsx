@@ -1,75 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Users, BarChart3, Cog, Brain, Shield, Zap, ChevronLeft, ChevronRight } from "lucide-react"
 import { MouseHighlightText } from "./mouse-highlight-text"
 import { Container, Section, Stack, Grid, Inline } from "@/components/ui/layout"
 import { Heading, Text, Card, IconWrapper, GradientBackground } from "@/components/ui/primitives"
 import { Button, ButtonGroup } from "@/components/ui/enhanced-button"
-
-const subBrands = [
-  {
-    id: "cx",
-    name: "CX",
-    fullName: "Simplx CX",
-    tagline: "Customer Experience Revolution",
-    description:
-      "Transform customer interactions with AI-powered solutions that create memorable experiences and drive loyalty.",
-    gradient: "from-blue-500 to-cyan-400",
-    icon: Users,
-    features: ["AI Chatbots", "Sentiment Analysis", "Personalization", "Omnichannel Support"],
-  },
-  {
-    id: "data",
-    name: "Data",
-    fullName: "Simplx Data",
-    tagline: "Intelligence from Information",
-    description: "Turn raw data into actionable insights with advanced analytics and machine learning solutions.",
-    gradient: "from-emerald-500 to-teal-400",
-    icon: BarChart3,
-    features: ["Data Analytics", "Predictive Models", "Real-time Insights", "Custom Dashboards"],
-  },
-  {
-    id: "ops",
-    name: "Ops",
-    fullName: "Simplx Ops",
-    tagline: "Operational Excellence",
-    description: "Streamline operations with intelligent automation and process optimization solutions.",
-    gradient: "from-purple-500 to-pink-400",
-    icon: Cog,
-    features: ["Process Automation", "Workflow Optimization", "Resource Management", "Performance Monitoring"],
-  },
-  {
-    id: "ai",
-    name: "AI",
-    fullName: "Simplx AI",
-    tagline: "Artificial Intelligence Core",
-    description: "Custom AI solutions including natural language processing and computer vision applications.",
-    gradient: "from-orange-500 to-red-400",
-    icon: Brain,
-    features: ["Custom AI Models", "NLP Solutions", "Computer Vision", "Machine Learning"],
-  },
-  {
-    id: "security",
-    name: "Security",
-    fullName: "Simplx Security",
-    tagline: "AI-Powered Protection",
-    description: "Advanced cybersecurity solutions using AI to detect, prevent, and respond to threats.",
-    gradient: "from-red-500 to-rose-400",
-    icon: Shield,
-    features: ["Threat Detection", "AI Security", "Risk Assessment", "Compliance Monitoring"],
-  },
-  {
-    id: "automation",
-    name: "Automation",
-    fullName: "Simplx Automation",
-    tagline: "Intelligent Process Automation",
-    description: "End-to-end automation solutions that eliminate manual work and optimize workflows.",
-    gradient: "from-yellow-500 to-orange-400",
-    icon: Zap,
-    features: ["RPA Solutions", "Smart Workflows", "Integration Hub", "Performance Analytics"],
-  },
-]
+import { subBrands, iconMap } from "@/lib/products-data"
 
 export function SubBrands() {
   const [activeTab, setActiveTab] = useState("cx")
@@ -158,7 +95,7 @@ export function SubBrands() {
                 />
 
                 <Inline spacing="sm" align="center" className="relative z-10">
-                  <brand.icon className={`w-5 h-5 ${selectedTab === brand.id ? "text-white" : ""}`} />
+                  {React.createElement(iconMap[brand.iconName], { className: `w-5 h-5 ${selectedTab === brand.id ? "text-white" : ""}` })}
                   <Text weight="semibold" className={selectedTab === brand.id ? "text-white" : ""}>{brand.name}</Text>
                 </Inline>
               </Button>
@@ -233,13 +170,12 @@ export function SubBrands() {
                     }`}
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <activeBrand.icon
-                    className={`w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 text-white transition-all duration-1000 ${isTransitioning ? "opacity-0 scale-75 rotate-12" : "opacity-30 scale-100 rotate-0"
-                      }`}
-                    style={{
+                  {React.createElement(iconMap[activeBrand.iconName], {
+                    className: `w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 text-white transition-all duration-1000 ${isTransitioning ? "opacity-0 scale-75 rotate-12" : "opacity-30 scale-100 rotate-0"}`,
+                    style: {
                       animation: isTransitioning ? "none" : "float 6s ease-in-out infinite",
-                    }}
-                  />
+                    }
+                  })}
                 </div>
                 {/* Floating elements around the icon */}
                 <div className="absolute inset-0">

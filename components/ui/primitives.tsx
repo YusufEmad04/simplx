@@ -275,14 +275,14 @@ GradientBackground.displayName = "GradientBackground"
 
 // Icon Wrapper Component
 const iconVariants = cva(
-    "inline-flex items-center justify-center rounded-full",
+    "inline-flex items-center justify-center rounded-full overflow-hidden",
     {
         variants: {
             size: {
-                sm: "h-8 w-8",
-                md: "h-12 w-12",
-                lg: "h-16 w-16",
-                xl: "h-20 w-20",
+                sm: "h-8 w-8 min-h-8 min-w-8",
+                md: "h-12 w-12 min-h-12 min-w-12",
+                lg: "h-16 w-16 min-h-16 min-w-16",
+                xl: "h-20 w-20 min-h-20 min-w-20",
             },
             variant: {
                 default: "bg-surface-tertiary text-text-primary",
@@ -315,3 +315,193 @@ export const IconWrapper = forwardRef<HTMLDivElement, IconWrapperProps>(
     }
 )
 IconWrapper.displayName = "IconWrapper"
+
+// Status Badge Component
+const statusBadgeVariants = cva(
+    "inline-flex items-center justify-center px-2 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap",
+    {
+        variants: {
+            status: {
+                available: "bg-green-500/20 text-green-400",
+                beta: "bg-yellow-500/20 text-yellow-400",
+                "coming-soon": "bg-blue-500/20 text-blue-400",
+                inactive: "bg-surface-tertiary/30 text-text-tertiary",
+            },
+            size: {
+                sm: "px-1.5 py-0.5 text-xs min-w-0",
+                md: "px-2 py-1 text-xs",
+                lg: "px-3 py-1.5 text-sm",
+            },
+        },
+        defaultVariants: {
+            status: "available",
+            size: "md",
+        },
+    }
+)
+
+export interface StatusBadgeProps
+    extends HTMLAttributes<HTMLSpanElement>,
+    VariantProps<typeof statusBadgeVariants> {
+    status: "available" | "beta" | "coming-soon" | "inactive"
+}
+
+export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
+    ({ className, status, size, children, ...props }, ref) => {
+        const statusText = {
+            available: "Available",
+            beta: "Beta",
+            "coming-soon": "Coming Soon",
+            inactive: "Inactive",
+        }
+
+        const mobileStatusText = {
+            available: "Available",
+            beta: "Beta",
+            "coming-soon": "Soon",
+            inactive: "Inactive",
+        }
+
+        return (
+            <span
+                ref={ref}
+                className={cn(statusBadgeVariants({ status, size }), className)}
+                {...props}
+            >
+                <span className="hidden sm:inline">
+                    {children || statusText[status]}
+                </span>
+                <span className="sm:hidden">
+                    {children || mobileStatusText[status]}
+                </span>
+            </span>
+        )
+    }
+)
+StatusBadge.displayName = "StatusBadge"
+
+// Feature Dot Component
+const featureDotVariants = cva(
+    "inline-block rounded-full bg-gradient-to-r",
+    {
+        variants: {
+            size: {
+                xs: "w-1 h-1",
+                sm: "w-1.5 h-1.5",
+                md: "w-2 h-2",
+            },
+        },
+        defaultVariants: {
+            size: "sm",
+        },
+    }
+)
+
+export interface FeatureDotProps
+    extends HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof featureDotVariants> {
+    gradient?: string
+}
+
+export const FeatureDot = forwardRef<HTMLDivElement, FeatureDotProps>(
+    ({ className, size, gradient = "from-brand-primary to-brand-accent", ...props }, ref) => {
+        return (
+            <div
+                ref={ref}
+                className={cn(featureDotVariants({ size }), gradient, className)}
+                {...props}
+            />
+        )
+    }
+)
+FeatureDot.displayName = "FeatureDot"
+
+// Breadcrumb Component
+export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
+    separator?: React.ReactNode
+}
+
+export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
+    ({ className, separator = "/", children, ...props }, ref) => {
+        return (
+            <nav
+                ref={ref}
+                className={cn("flex items-center space-x-2 text-sm text-text-tertiary", className)}
+                {...props}
+            >
+                {children}
+            </nav>
+        )
+    }
+)
+Breadcrumb.displayName = "Breadcrumb"
+
+export interface BreadcrumbItemProps extends HTMLAttributes<HTMLSpanElement> {
+    href?: string
+    active?: boolean
+}
+
+export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
+    ({ className, href, active = false, children, ...props }, ref) => {
+        const baseClasses = cn(
+            "transition-colors duration-200",
+            active
+                ? "text-text-primary font-medium"
+                : "hover:text-text-primary",
+            className
+        )
+
+        if (href) {
+            return (
+                <a
+                    href={href}
+                    className={baseClasses}
+                    {...props}
+                >
+                    {children}
+                </a>
+            )
+        }
+
+        return (
+            <span
+                ref={ref}
+                className={baseClasses}
+                {...props}
+            >
+                {children}
+            </span>
+        )
+    }
+)
+BreadcrumbItem.displayName = "BreadcrumbItem"
+
+// Numbered List Item Component
+export interface NumberedItemProps extends HTMLAttributes<HTMLDivElement> {
+    number: number
+}
+
+export const NumberedItem = forwardRef<HTMLDivElement, NumberedItemProps>(
+    ({ className, number, children, ...props }, ref) => {
+        return (
+            <div
+                ref={ref}
+                className={cn(
+                    "flex items-start space-x-3 p-4 rounded-lg bg-surface-secondary/30 hover:bg-surface-secondary/50 transition-colors duration-300",
+                    className
+                )}
+                {...props}
+            >
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-primary/20 flex items-center justify-center">
+                    <span className="text-sm font-bold text-brand-primary">
+                        {number}
+                    </span>
+                </div>
+                <div className="flex-1">
+                    {children}
+                </div>
+            </div>
+        )
+    }
+)
+NumberedItem.displayName = "NumberedItem"
