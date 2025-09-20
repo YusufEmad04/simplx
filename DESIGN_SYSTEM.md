@@ -209,6 +209,44 @@ Variants:
 - `variant`: `primary` | `secondary` | `accent` | `outline` | `ghost` | `glow`
 - `size`: `sm` | `md` | `lg` | `xl` | `icon`
 
+#### CTA Button System
+Comprehensive set of pre-configured CTA buttons for common actions, built on the Enhanced Button foundation.
+
+```tsx
+<GetStartedButton 
+  href="/contact" 
+  className="w-full sm:w-auto" 
+/>
+```
+
+**Base CTA Button Component:**
+```tsx
+<CTAButton 
+  variant="primary" 
+  size="lg" 
+  href="/contact" 
+  icon={ArrowRight}
+  fullWidth={false}
+>
+  Custom CTA Text
+</CTAButton>
+```
+
+**Pre-configured CTA Buttons:**
+- `GetStartedButton` - Primary action for user onboarding
+- `GetStartedTodayButton` - Urgent variant with "today" emphasis
+- `ScheduleConsultationButton` - Consultation booking (outline style)
+- `ExploreProductsButton` - Navigate to products collection
+- `ExploreProductButton` - Navigate to individual product (singular)
+- `LearnMoreButton` - Secondary information action
+
+**CTA Button Features:**
+- Consistent icon integration (ArrowRight, Calendar, ShoppingBag, ExternalLink)
+- Mobile-responsive sizing (`w-4 h-4 sm:w-5 sm:h-5` for icons)
+- Full-width mobile support (`w-full sm:w-auto`)
+- Semantic defaults with customizable overrides
+- Built-in Link integration for navigation
+
 ## Visual Effects
 
 ### Shadows
@@ -266,6 +304,9 @@ Pre-defined animations for consistent motion:
 - Apply hover effects consistently across interactive elements
 - Use loading states and micro-interactions
 - Ensure accessibility with proper focus states
+- Prefer pre-configured CTA buttons over custom implementations
+- Use mobile-responsive patterns (`w-full sm:w-auto`, `flex-col sm:flex-row`)
+- Implement consistent icon/text layouts with proper spacing
 
 ## Responsive Design
 
@@ -281,6 +322,43 @@ Pre-defined animations for consistent motion:
 - Stack elements vertically on mobile
 - Reduce font sizes and spacing appropriately
 - Maintain touch targets (44px minimum)
+
+### Responsive Layout Patterns
+Common responsive patterns implemented across the system:
+
+#### Button Layouts
+```tsx
+{/* Mobile: full-width, Desktop: auto-width */}
+<div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+  <GetStartedButton className="w-full sm:w-auto" />
+  <ScheduleConsultationButton className="w-full sm:w-auto" />
+</div>
+```
+
+#### Icon/Title Layouts
+```tsx
+{/* Mobile: vertical stack, Desktop: horizontal */}
+<div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+  <IconWrapper className="self-start sm:self-center" />
+  <div className="min-w-0">
+    <Heading className="text-3xl sm:text-4xl lg:text-5xl" />
+  </div>
+</div>
+```
+
+#### List Item Alignment
+```tsx
+{/* Mobile: left-aligned, Desktop: centered */}
+<div className="flex items-center justify-start sm:justify-center space-x-2">
+  <CheckCircle />
+  <span>List item text</span>
+</div>
+```
+
+#### Typography Scaling
+- Headlines: `text-3xl sm:text-4xl lg:text-5xl xl:text-6xl`
+- Body text: `text-base sm:text-lg`
+- Small text: `text-sm sm:text-base`
 
 ## Accessibility
 
@@ -307,6 +385,37 @@ Pre-defined animations for consistent motion:
 3. Support all semantic props (size, variant, etc.)
 4. Include proper TypeScript types
 5. Document component API
+6. Create reusable components to eliminate code duplication
+7. Follow DRY principles with pre-configured component variants
+
+### Reusability Guidelines
+- Prefer pre-configured components over custom implementations
+- Create component variants for common use cases
+- Use consistent prop interfaces across similar components
+- Implement mobile-responsive defaults in reusable components
+- Maintain semantic naming conventions (singular vs plural)
+
+### DRY Principles in Practice
+**Instead of:**
+```tsx
+<Button variant="primary" size="lg" asChild>
+  <Link href="/contact">
+    Get Started
+    <ArrowRight className="w-5 h-5 ml-2" />
+  </Link>
+</Button>
+```
+
+**Use:**
+```tsx
+<GetStartedButton href="/contact" />
+```
+
+This eliminates repetition of:
+- Icon imports and sizing
+- Link integration patterns
+- Consistent spacing and layout
+- Mobile-responsive behavior
 
 ### Styling Rules
 1. Use semantic CSS custom properties
@@ -317,9 +426,22 @@ Pre-defined animations for consistent motion:
 
 ### Testing Components
 1. Test all variants and combinations
-2. Verify responsive behavior
+2. Verify responsive behavior across all breakpoints
 3. Check accessibility compliance
 4. Validate TypeScript types
 5. Document edge cases
+6. Test mobile touch targets (minimum 44px)
+7. Verify text truncation and overflow handling
+8. Validate consistent left alignment in mobile lists
 
-This design system provides a comprehensive foundation for building consistent, scalable, and maintainable UI components while preserving the Simplx.tech brand identity.
+### Mobile Compatibility Checklist
+- [ ] Text scales appropriately across breakpoints
+- [ ] Buttons stack vertically on mobile, horizontally on desktop
+- [ ] Icons and titles have proper mobile layouts
+- [ ] Touch targets meet 44px minimum requirement
+- [ ] Text truncation prevents overflow
+- [ ] List items align consistently on the left (mobile)
+- [ ] Gaps and spacing follow mobile-first patterns
+- [ ] All interactive elements are accessible via touch
+
+This design system provides a comprehensive foundation for building consistent, scalable, and maintainable UI components while preserving the Simplx.tech brand identity. The recent additions ensure mobile-first responsive design and eliminate code duplication through reusable CTA components.
