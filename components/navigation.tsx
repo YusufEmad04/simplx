@@ -144,13 +144,13 @@ export function Navigation({ className }: NavigationProps) {
                         href="/"
                         className="flex items-center space-x-2 group transition-transform duration-200 hover:scale-105"
                     >
-                        <div className="w-8 h-8 lg:w-10 lg:h-10">
+                        {/* <div className="w-8 h-8 lg:w-10 lg:h-10">
                             <img
                                 src="/placeholder-logo.svg"
                                 alt="Simplx Logo"
                                 className="w-full h-full object-contain"
                             />
-                        </div>
+                        </div> */}
                         <span className="text-xl lg:text-2xl font-bold font-space-grotesk">
                             <span className="text-text-primary">Simplx</span>
                             <span className="text-brand-primary">.tech</span>
